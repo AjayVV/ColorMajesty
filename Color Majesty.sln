@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.645
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Color Majesty", "Color Majesty.vcxproj", "{321E0F87-7D42-48A3-90F3-EEEBEA924747}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{321E0F87-7D42-48A3-90F3-EEEBEA924747}.Debug|x86.ActiveCfg = Debug|Win32
+		{321E0F87-7D42-48A3-90F3-EEEBEA924747}.Debug|x86.Build.0 = Debug|Win32
+		{321E0F87-7D42-48A3-90F3-EEEBEA924747}.Release|x86.ActiveCfg = Release|Win32
+		{321E0F87-7D42-48A3-90F3-EEEBEA924747}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F51304D6-5E42-43B6-95AF-155A442CF39E}
+	EndGlobalSection
+EndGlobal
