@@ -89,7 +89,7 @@ bool CColorManager::LoadColors()
 	strColorsString.SetString(lpData, SizeofResource(NULL, hResource));
 
 	// A basic assert.. might be useful in future.
-	ASSERT ( SizeofResource(NULL, hResource) == strColorsString.GetLength() );
+	ASSERT ( SizeofResource(NULL, hResource) == (DWORD)strColorsString.GetLength() );
 
 	FreeResource(hResource);
 

@@ -266,6 +266,8 @@ void CColorMajestyDlg::CreateContextMenus()
 
 void CColorMajestyDlg::OnNMClickAdd2view(NMHDR *pNMHDR, LRESULT *pResult)
 {
+	UNREFERENCED_PARAMETER(pNMHDR);
+
 	OnAdd2View();
 
 	*pResult = 0;

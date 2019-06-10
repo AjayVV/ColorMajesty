@@ -121,6 +121,8 @@ void CColorViewCtrl::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
 
 void CColorViewCtrl::MeasureItem( LPMEASUREITEMSTRUCT lpMeasureItemStruct )
 {
+	UNREFERENCED_PARAMETER(lpMeasureItemStruct);
+
 	// TODO: Add your message handler code here and/or call default
 
 //	CListCtrl::MeasureItem(nIDCtl, lpMeasureItemStruct);
@@ -128,6 +130,9 @@ void CColorViewCtrl::MeasureItem( LPMEASUREITEMSTRUCT lpMeasureItemStruct )
 
 LRESULT CColorViewCtrl::OnSetFont( WPARAM wParam, LPARAM lParam )
 {
+	UNREFERENCED_PARAMETER(wParam);
+	UNREFERENCED_PARAMETER(lParam);	
+
 	CRect rc;
 	GetWindowRect(&rc);
 

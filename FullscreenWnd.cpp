@@ -144,7 +144,7 @@ void RenderRectangles(CWnd* pWnd, CDC& dc)
 		RectVector.push_back(tempRect);
 
 		tempRect.left  = tempRect.right;
-		tempRect.right = tempRect.right+nVertDiv;
+		tempRect.right = static_cast<LONG>( tempRect.right+nVertDiv);
 		RectVector.push_back(tempRect);
 
 		tempRect.left  = tempRect.right;
@@ -178,16 +178,16 @@ void RenderRectangles(CWnd* pWnd, CDC& dc)
 		RectVector.push_back(tempRect);
 
 		tempRect.left  = tempRect.right;
-		tempRect.right = tempRect.right+nVertDiv;
+		tempRect.right = static_cast<LONG>(tempRect.right+nVertDiv);
 		RectVector.push_back(tempRect);
 
 		tempRect.left  = tempRect.right;
 		tempRect.right = clientRect.right;
 		RectVector.push_back(tempRect);
 
-		nVertDiv = clientRect.right/4.0;
+		nVertDiv = clientRect.right/4.0f;
 
-		tempRect.top = clientRect.bottom/2.0;
+		tempRect.top = static_cast<LONG>(clientRect.bottom/2.0f);
 		
 		tempRect.left = clientRect.left;
 		tempRect.bottom  = (LONG)(clientRect.bottom);
@@ -195,11 +195,11 @@ void RenderRectangles(CWnd* pWnd, CDC& dc)
 		RectVector.push_back(tempRect);
 
 		tempRect.left  = tempRect.right;
-		tempRect.right = tempRect.right+nVertDiv;
+		tempRect.right = static_cast<LONG>(tempRect.right+nVertDiv);
 		RectVector.push_back(tempRect);
 
 		tempRect.left  = tempRect.right;
-		tempRect.right = tempRect.right+nVertDiv;
+		tempRect.right = static_cast<LONG>(tempRect.right+nVertDiv);
 		RectVector.push_back(tempRect);
 
 		tempRect.left  = tempRect.right;
@@ -219,20 +219,20 @@ void RenderRectangles(CWnd* pWnd, CDC& dc)
 		RectVector.push_back(tempRect);
 
 		tempRect.left  = tempRect.right;
-		tempRect.right = tempRect.right+nVertDiv;
+		tempRect.right = static_cast<LONG>(tempRect.right+nVertDiv);
 		RectVector.push_back(tempRect);
 
 		tempRect.left  = tempRect.right;
-		tempRect.right = tempRect.right+nVertDiv;
+		tempRect.right = static_cast<LONG>(tempRect.right+nVertDiv);
 		RectVector.push_back(tempRect);
 
 		tempRect.left  = tempRect.right;
 		tempRect.right = clientRect.right;
 		RectVector.push_back(tempRect);
 
-		nVertDiv = clientRect.right/4.0;
+		nVertDiv = clientRect.right/4.0f;
 
-		tempRect.top = clientRect.bottom/2.0;
+		tempRect.top = static_cast<LONG>(clientRect.bottom/2.0f);
 
 		tempRect.left = clientRect.left;
 		tempRect.bottom  = (LONG)(clientRect.bottom);
@@ -240,11 +240,11 @@ void RenderRectangles(CWnd* pWnd, CDC& dc)
 		RectVector.push_back(tempRect);
 
 		tempRect.left  = tempRect.right;
-		tempRect.right = tempRect.right+nVertDiv;
+		tempRect.right = static_cast<LONG>(tempRect.right+nVertDiv);
 		RectVector.push_back(tempRect);
 
 		tempRect.left  = tempRect.right;
-		tempRect.right = tempRect.right+nVertDiv;
+		tempRect.right = static_cast<LONG>(tempRect.right+nVertDiv);
 		RectVector.push_back(tempRect);
 
 		tempRect.left  = tempRect.right;
