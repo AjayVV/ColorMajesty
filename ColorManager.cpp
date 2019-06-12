@@ -1,18 +1,8 @@
 #include "StdAfx.h"
 #include "ColorManager.h"
 #include "resource.h"
-#include <algorithm>
 
-#define ITEM_SEPARATOR	L','
-
-CColorManager::CColorManager(void)
-{
-}
-
-
-CColorManager::~CColorManager(void)
-{
-}
+constexpr WCHAR ITEM_SEPARATOR = L',';
 
 #define GetNibble(_x)	\
 	( ((_x) > '9') ? ( (_x) - 55 ) : ((_x) - 48 ) )
@@ -33,23 +23,23 @@ CColorManager::~CColorManager(void)
 	BYTE Codes[3];
 	*/
 
-	
-			/*
 
-		_ASSERTE((cChar >='0' && cChar<='9') || (cChar>='A' && cChar<='F'));
+	/*
 
-		if (cChar >='0' && cChar <='9')
-		{
-			nValue = cChar - '0';
-		}
-		else
-		{	
-			nValue = cChar - 'A' + 10;
-		}
+_ASSERTE((cChar >='0' && cChar<='9') || (cChar>='A' && cChar<='F'));
 
-		nResult = (nResult << 4) + nValue;
+if (cChar >='0' && cChar <='9')
+{
+	nValue = cChar - '0';
+}
+else
+{
+	nValue = cChar - 'A' + 10;
+}
 
-		lpszInput++;
+nResult = (nResult << 4) + nValue;
+
+lpszInput++;
 
 //	} //while (pChar>=lpszInput);
 
@@ -58,23 +48,24 @@ CColorManager::~CColorManager(void)
 
 bool CColorManager::LoadColors()
 {
-	HRSRC hResource = FindResource(NULL, MAKEINTRESOURCE(IDR_COLORCODES),  L"COLORCODES");
+	HRSRC hResource = FindResource(nullptr, MAKEINTRESOURCE(IDR_COLORCODES), L"COLORCODES");
 
-	if(!hResource)
+	if (!hResource)
+	{
 		return false;
+	}
 
-	HGLOBAL hResHandle = LoadResource(NULL, hResource);
+	HGLOBAL hResHandle = LoadResource(nullptr, hResource);
 
-	if(!hResHandle)
+	if (!hResHandle)
 	{
 		FreeResource(hResource);
 		return false;
 	}
 
-	// Resource is ANSII (as yet)
-	const char* lpData = static_cast<char*> ( LockResource(hResHandle) );
-
-	if(!lpData)
+	// Resource is ANSI (as yet)
+	auto lpData = static_cast<char*> (LockResource(hResHandle));
+	if (!lpData)
 	{
 		FreeResource(hResource);
 		return false;
@@ -86,16 +77,12 @@ bool CColorManager::LoadColors()
 	LPCTSTR Zeroes = L"00000";
 	LPCSTR pInput;
 
-	strColorsString.SetString(lpData, SizeofResource(NULL, hResource));
+	strColorsString.SetString(lpData, SizeofResource(nullptr, hResource));
 
 	// A basic assert.. might be useful in future.
-	ASSERT ( SizeofResource(NULL, hResource) == (DWORD)strColorsString.GetLength() );
+	ASSERT(SizeofResource(nullptr, hResource) == (DWORD)strColorsString.GetLength());
 
 	FreeResource(hResource);
-
-	// CStdioFile m_cFile;
-
-	// m_cFile.Open(L"names.csv", CFile::modeRead | CFile::typeText);
 
 	CString strOneLine;
 
@@ -107,25 +94,27 @@ bool CColorManager::LoadColors()
 
 	int nIndex;
 
-
 	int nFindAt = 0;
 	int nFountAt;
+
 	do
 	{
 		nFountAt = strColorsString.Find(L'\n', nFindAt);
 
-		if ( nFountAt == -1)
+		if (nFountAt == -1)
+		{
 			break;
+		}
 
 		strOneLine = strColorsString.Mid(nFindAt, nFountAt - nFindAt - 1);
 
 		// For next search
-		nFindAt = nFountAt+1;
+		nFindAt = nFountAt + 1;
 
 		nIndex = strOneLine.Find(ITEM_SEPARATOR);
 
 		// Separator not found, or line seems to be invalid.
-		if ( nIndex <= 0 )
+		if (nIndex <= 0)
 		{
 			ASSERT(FALSE);
 			continue;
@@ -136,48 +125,40 @@ bool CColorManager::LoadColors()
 		strColor = strOneLine.Left(nIndex);
 
 		// The rest is meaning
-		strName = strOneLine.Mid(nIndex+1);
-		
-		color_info.ColorName= ((TCHAR)toupper(strName[0])) + strName.Mid(1);
-		
+		strName = strOneLine.Mid(nIndex + 1);
 
+		color_info.ColorName = ((TCHAR)toupper(strName[0])) + strName.Mid(1);
 		
 		ASSERT(strColor.GetLength() > 0);
 
 		if (strColor.GetLength() < 6)
-		{			
-			 strColor = (Zeroes + strColor.GetLength() -1 ) + strColor;
+		{
+			strColor = (Zeroes + strColor.GetLength() - 1) + strColor;
 		}
+
 		// Must be exactly six-chars
 		ASSERT(strColor.GetLength() == 6);
 
 		strColorA = strColor.MakeUpper();
 		pInput = strColorA;
 
-		color_info.Color= RGB((GetNibble(pInput[0]) << 4) + GetNibble(pInput[1]),
+		color_info.Color = RGB((GetNibble(pInput[0]) << 4) + GetNibble(pInput[1]),
 			(GetNibble(pInput[2]) << 4) + GetNibble(pInput[3]),
 			(GetNibble(pInput[4]) << 4) + GetNibble(pInput[5]));
-
-			//HexToColor(CStringA(strColor).MakeUpper());		
-
-		ASSERT( color_info.Color >=0 && color_info.Color<=RGB(255,255,255));
+				
+		ASSERT(color_info.Color >= 0 && color_info.Color <= RGB(255, 255, 255));
 
 		Colors.push_back(color_info);
 
-	} while(true);
-
+	} while (true);
 
 	// Free up memory!
 	strColorsString.Empty();
 
-#ifdef _DEBUG
-	// for_each()
-#endif
-
 	return true;
 }
 
-bool CColorManager::BeginSearch( const CString& strInput )
+bool CColorManager::BeginSearch(const CString& strInput)
 {
 	ResultVector.clear();
 
@@ -186,19 +167,17 @@ bool CColorManager::BeginSearch( const CString& strInput )
 
 	CString lcColor;
 
-	//using namespace std;
 	for (auto iter = Colors.cbegin(); iter != Colors.cend(); ++iter)
 	{
 		lcColor = iter->ColorName;
 		lcColor.MakeUpper();
-		if (lcColor.Find(lcInput)>=0)
+		if (lcColor.Find(lcInput) >= 0)
 		{
 			ResultVector.push_back(iter);
-		}				
+		}
 	}
 
 	LastResult = ResultVector.cbegin();
-	
 
 	return true;
 }
@@ -210,7 +189,7 @@ bool CColorManager::FindNext()
 		return false;
 	}
 
-	return true;	
+	return true;
 }
 
 const ColorInfo& CColorManager::GetNext()
@@ -218,7 +197,7 @@ const ColorInfo& CColorManager::GetNext()
 	return **(LastResult++);
 }
 
-void CColorManager::Add2Preview( const ColorInfo& lcColorInfo)
+void CColorManager::Add2Preview(const ColorInfo& lcColorInfo)
 {
 	Colors2Preview.push_back(lcColorInfo);
 }

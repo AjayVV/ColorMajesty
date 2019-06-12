@@ -1,22 +1,14 @@
-
-// Color MajestyDlg.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "Color Majesty.h"
 #include "Color MajestyDlg.h"
-#include "afxdialogex.h"
-
-//#include "..\..\SmartUtil.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
 
-
 // CColorMajestyDlg dialog
-CColorMajestyDlg::CColorMajestyDlg() : CDialog(CColorMajestyDlg::IDD), 
-	ColorManager(GetColorManager())
+CColorMajestyDlg::CColorMajestyDlg() : CDialog(CColorMajestyDlg::IDD),
+ColorManager(GetColorManager())
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
@@ -41,18 +33,13 @@ BEGIN_MESSAGE_MAP(CColorMajestyDlg, CDialog)
 	ON_BN_CLICKED(IDC_COPYHEX, &CColorMajestyDlg::OnBnClickedCopyhex)
 	ON_WM_CTLCOLOR()
 	ON_NOTIFY(NM_RCLICK, IDC_COLOR_DISP, &CColorMajestyDlg::OnRclickColorDisp)
-
-
 	ON_NOTIFY(NM_CLICK, IDC_ADD2VIEW, &CColorMajestyDlg::OnNMClickAdd2view)
 END_MESSAGE_MAP()
-
-
-// CColorMajestyDlg message handlers
 
 BOOL CColorMajestyDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
-	
+
 	CreateContextMenus();
 
 	//BOOL bOk = m_cWndResizer.Hook(this);
@@ -67,18 +54,14 @@ BOOL CColorMajestyDlg::OnInitDialog()
 	//m_cWndResizer.SetAnchor(IDC_COPYRGB, ANCHOR_RIGHT);	
 	//m_cWndResizer.SetAnchor(IDC_COPYHEX, ANCHOR_RIGHT);	
 
-
-
-	// Set the icon for this dialog.  The framework does this automatically
-	//  when the application's main window is not a dialog
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
-	m_cColorList.InsertColumn(0, L"Color", LVCFMT_LEFT, 300);	
+	m_cColorList.InsertColumn(0, L"Color", LVCFMT_LEFT, 300);
 
 	ShowWindow(SW_MAXIMIZE);
 	ShowWindow(SW_RESTORE);
-	
+
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
 
@@ -129,8 +112,8 @@ void CColorMajestyDlg::OnEnChangeColorin()
 
 	m_cColorList.Clear();
 
-	
-	while(ColorManager.FindNext())
+
+	while (ColorManager.FindNext())
 	{
 		const ColorInfo& color_info = ColorManager.GetNext();
 
@@ -142,11 +125,10 @@ void CColorMajestyDlg::OnEnChangeColorin()
 
 void CColorMajestyDlg::OnMeasureItem(int nIDCtl, LPMEASUREITEMSTRUCT lpMeasureItemStruct)
 {
-	
-		if (IDC_COLOR_DISP == nIDCtl)
-		{
-			lpMeasureItemStruct->itemHeight = SQUARE_SIZE + SQUARE_MARGIN*2;
-		}
+	if (IDC_COLOR_DISP == nIDCtl)
+	{
+		lpMeasureItemStruct->itemHeight = SQUARE_SIZE + SQUARE_MARGIN * 2;
+	}
 
 	CDialog::OnMeasureItem(nIDCtl, lpMeasureItemStruct);
 }
@@ -156,9 +138,9 @@ void CColorMajestyDlg::OnSize(UINT nType, int cx, int cy)
 {
 	CDialog::OnSize(nType, cx, cy);
 
-	if(::IsWindow(m_cColorList.m_hWnd))
+	if (::IsWindow(m_cColorList.m_hWnd))
 	{
-		m_cColorList.MoveWindow(8, 40, cx-170, cy-10-40,TRUE);
+		m_cColorList.MoveWindow(8, 40, cx - 170, cy - 10 - 40, TRUE);
 	}
 }
 
@@ -172,11 +154,10 @@ void CColorMajestyDlg::OnAdd2View()
 {
 	ColorInfo color_info;
 
-	if (! m_cColorList.GetSelectedColorInfo(color_info) )
+	if (!m_cColorList.GetSelectedColorInfo(color_info))
 		return;
 
 	ColorManager.Add2Preview(color_info);
-
 	m_cPreviewWnd.Invalidate(TRUE);
 }
 
@@ -190,39 +171,37 @@ HBRUSH CColorMajestyDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 {
 	HBRUSH hbr = CDialog::OnCtlColor(pDC, pWnd, nCtlColor);
 
-	switch(pWnd->GetDlgCtrlID())
+	switch (pWnd->GetDlgCtrlID())
 	{
-	case IDC_COPY_SUCCESS:
-		pDC->SetBkMode(TRANSPARENT);
-		pDC->SetTextColor(RGB(0,0,200));
-		return CreateSolidBrush(RGB(255, 255, 170));
-		break;	// In case...
-
+		case IDC_COPY_SUCCESS:
+			pDC->SetBkMode(TRANSPARENT);
+			pDC->SetTextColor(RGB(0, 0, 200));
+			return CreateSolidBrush(RGB(255, 255, 170));
 	}
 
 	// TODO:  Return a different brush if the default is not desired
 	return hbr;
 }
 
-void CColorMajestyDlg::CopyWithFormat( LPCWSTR lpFormat )
+void CColorMajestyDlg::CopyWithFormat(LPCWSTR lpFormat)
 {
 	ColorInfo color_info;
 
-	if (! m_cColorList.GetSelectedColorInfo(color_info) )
+	if (!m_cColorList.GetSelectedColorInfo(color_info))
 		return;
 
 	CString strColor;
-	strColor.Format(lpFormat, 
+	strColor.Format(lpFormat,
 		GetRValue(color_info.Color), GetGValue(color_info.Color), GetBValue(color_info.Color));
 
 	CWnd* pCopyResultWnd = GetDlgItem(IDC_COPY_SUCCESS);
 
-	if( CopyToClipboard(strColor.GetString()) )
+	if (CopyToClipboard(strColor.GetString()))
 	{
-		pCopyResultWnd->SetWindowText(L"Successfully copied:\n"+strColor);
+		pCopyResultWnd->SetWindowText(L"Successfully copied:\n" + strColor);
 	}
 	else
-	{	
+	{
 		pCopyResultWnd->SetWindowText(L"Failed to Copy.");
 	}
 
@@ -236,16 +215,15 @@ void CColorMajestyDlg::CopyWithFormat( LPCWSTR lpFormat )
 void CColorMajestyDlg::OnRclickColorDisp(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
-	
+
 	if (pNMItemActivate->iItem == LB_ERR)
 	{
 		return;
 	}
-	
-	
+
 	m_cColorList.ClientToScreen(&pNMItemActivate->ptAction);
 
-	m_cColorListContextMenu.TrackPopupMenu(TPM_LEFTBUTTON, pNMItemActivate->ptAction.x, 
+	m_cColorListContextMenu.TrackPopupMenu(TPM_LEFTBUTTON, pNMItemActivate->ptAction.x,
 		pNMItemActivate->ptAction.y, this);
 
 	*pResult = 0;

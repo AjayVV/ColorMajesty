@@ -1,14 +1,13 @@
 #pragma once
 
-#include <vector>
-
 struct ColorInfo
 {
 	DWORD Color;
 	CString ColorName;
 };
 
-typedef std::vector<ColorInfo> ColorInfoVector;
+using ColorInfoVector = std::vector<ColorInfo>;
+
 class CColorManager
 {
 	ColorInfoVector Colors;
@@ -18,12 +17,8 @@ class CColorManager
 	ColorInfoVector Colors2Preview;
 
 public:
-	static COLORREF HexToColor(LPCSTR);
-
-	CColorManager(void);
-	~CColorManager(void);
 	bool LoadColors();
-	bool BeginSearch( const CString& strInput );
+	bool BeginSearch(const CString& strInput);
 	bool FindNext();
 	const ColorInfo& GetNext();
 
